@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>現代日本kutuluキャラクターシート作成ツール</title>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet">
+  <style>
+    body { padding: 20px; font-size: 12px; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; font-family: "Kosugi Maru", sans-serif; font-weight: 400; font-style: normal;}
+    table { border-collapse: collapse; width: 100%; border-radius: 10px; border: solid 1px #fff; overflow: hidden;}
+    th, td { border: 1px solid #fff; background-color: #ccc; padding: 5px; text-align: center; }
+    th { background-color: #555; color: #fff; }
+    .cell { cursor: pointer; width: 25px; background-color: #fff; }
+    .filled { background-color: #555 !important; color: #fff !important; }
+    tr:nth-child(odd) .cell { background-color: #eee; }
+    .col-box { max-width: 550px; margin-bottom: 40px; padding: 20px; display: flex; justify-content: space-between; border: 2px solid #555; border-radius: 10px; background: linear-gradient(to bottom, #f8f8f8, #eaeaea);}
+    .col-box__item { width: calc(50% - 8px); }
+    h2 { margin-top: 0; border-bottom: 1px solid #555; padding-bottom: 5px; }
+  </style>
+</head>
+<body>
+  
+  <div class="col-box">
+    <div class="col-box__item">
+      <h2>能力値</h2>
+      <table id="abilities">
+        <tr><th>分類</th><th>能力名</th><th colspan="4">点数</th></tr>
+        <tr><td rowspan="5">アクティブ</td><td>射撃</td></tr>
+        <tr><td>白兵</td></tr>
+        <tr><td>隠密</td></tr>
+        <tr><td>敏捷</td></tr>
+        <tr><td>筋力</td></tr>
+        <tr><td rowspan="4">パッシブ</td><td>知名度</td></tr>
+        <tr><td>弁舌</td></tr>
+        <tr><td>資金力</td></tr>
+        <tr><td>第六感</td></tr>
+      </table>
+      <p>合計消費点: <span id="abilityTotal">0</span> / 13</p>
+    </div>
+    <div class="col-box__item">
+      <h2>専門分野</h2>
+      <table id="specialties">
+        <tr><th>専門分野名</th><th colspan="3">点数</th></tr>
+        <tr><td>文化人類学&考古学</td></tr>
+        <tr><td>歴史学&古文書学</td></tr>
+        <tr><td>民俗学</td></tr>
+        <tr><td>言語学</td></tr>
+        <tr><td>芸術学</td></tr>
+        <tr><td>会計学&法学</td></tr>
+        <tr><td>犯罪学</td></tr>
+        <tr><td>地球科学</td></tr>
+        <tr><td>宇宙科学</td></tr>
+        <tr><td>医学&獣医学</td></tr>
+        <tr><td>機械工学&電子工学</td></tr>
+        <tr><td>情報工学</td></tr>
+      </table>
+      <p>合計消費点: <span id="specialtyTotal">0</span> / 10</p>
+    </div>
+  </div>
+
+  <button onclick="captureSheet()">シート画像を保存</button>
+
+<script>
+function initTable(id, maxPerRow, totalId, maxTotal) {
+  const table = document.getElementById(id);
+  let total = 0;
+
+  for(let i=1; i<table.rows.length; i++){
+    for(let j=1; j<=maxPerRow; j++){
+      let cell = table.rows[i].insertCell(-1);
+      cell.className = 'cell';
+      cell.textContent = j;
+      cell.onclick = function() {
+        const rowCells = table.rows[i].querySelectorAll('.cell');
+        const isFilled = cell.classList.contains('filled');
+
+        rowCells.forEach((c, idx) => {
+          if (isFilled) {
+            c.classList.toggle('filled', idx < j - 1);
+          } else {
+            c.classList.toggle('filled', idx < j);
+          }
+        });
+
+        updateTotal();
+      };
+    }
+  }
+
+  function updateTotal(){
+    total = table.querySelectorAll('.filled').length;
+    document.getElementById(totalId).textContent = total;
+    if (total > maxTotal) {
+      alert(`合計消費点を超えています！（最大${maxTotal}点）`);
+    }
+  }
+}
+
+initTable('abilities', 4, 'abilityTotal', 13);
+initTable('specialties', 3, 'specialtyTotal', 10);
+
+function captureSheet(){
+  const target = document.querySelector('.col-box');
+  html2canvas(target, {
+    backgroundColor: null
+  }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'sheet.png';
+    link.href = canvas.toDataURL('image/png'); // Explicitly using PNG which supports transparency
+    link.click();
+  });
+}
+
+</script>
+</body>
+</html>
