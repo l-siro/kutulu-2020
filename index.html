@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet">
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body { padding: 20px; font-size: 12px; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; font-family: "Kosugi Maru", sans-serif; font-weight: 400; font-style: normal;}
     table { border-collapse: collapse; width: 100%; border-radius: 10px; border: solid 1px #fff; overflow: hidden;}
     th, td { border: 1px solid #fff; background-color: #ccc; padding: 5px; text-align: center; }
@@ -16,11 +17,11 @@
     .cell { cursor: pointer; width: 25px; background-color: #fff; }
     .filled { background-color: #555 !important; color: #fff !important; }
     tr:nth-child(odd) .cell { background-color: #eee; }
-    .sheet { max-width: 550px; margin-bottom: 40px; padding: 20px;  }
+    .sheet { max-width: 600px; margin-bottom: 40px; padding: 20px;  }
     .col-box { display: flex;  justify-content: space-between;}
     .col-box__item { width: calc(50% - 8px); }
-    h2 { margin-top: 0; border-bottom: 1px solid #555; padding-bottom: 5px; font-size: 14px;}
-    .sheet-detail-input {max-width: 550px;}
+    h2 { margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #555; padding-bottom: 5px; font-size: 14px;}
+    .sheet-detail-input {max-width: 600px;}
     .sheet-detail-input__item { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;}
     .sheet-detail-input input { width: 70%; padding: 5px; border: 1px solid #ccc; font-size: 20px; background: transparent; line-height: 1.5; }
     .sheet {border: 2px solid #555; border-radius: 10px; background: linear-gradient(to bottom, #f8f8f8, #eaeaea);}
@@ -29,6 +30,7 @@
     .sheet-detail__item .name { width: 70%; padding: 5px 15px; border: none; font-size: 20px; background: transparent; line-height: 1.5; }
     .sheet-detail__item.player h3 { margin: 0; font-size: 12px; }
     .sheet-detail__item.player .name { font-size: 12px; }
+    table + p { margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -42,6 +44,7 @@
       <h3>プレイヤー名</h3>
       <input type="text" id="playerName" placeholder="プレイヤー名を入力">
     </div>
+  </div>
   <div class="sheet">
     <div class="sheet-detail">
       <div class="sheet-detail__item caracter">
